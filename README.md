@@ -38,7 +38,8 @@ If you have Node.js v22 or other incompatible version, use one of these methods:
 # Then install Node 18:
 nvm install 18.20.5
 nvm use 18.20.5
-node -v  # Should show v18.20.5
+node -v  # Sh
+ould show v18.20.5
 ```
 
 **Option 2: Direct Download**
