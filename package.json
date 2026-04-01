@@ -10,10 +10,11 @@
         "build": "gulp bundle",
         "clean": "gulp clean",
         "test": "gulp test",
-        "serve": "gulp bundle --custom-serve --max_old_space_size=4096 && fast-serve",
+        "serve": "gulp serve --max_old_space_size=4096",
         "package": "gulp bundle --ship && gulp package-solution --ship"
     },
     "dependencies": {
+        "@microsoft/decorators": "^1.18.2",
         "@microsoft/sp-application-base": "1.18.2",
         "@microsoft/sp-core-library": "1.18.2",
         "@microsoft/sp-property-pane": "1.18.2",
