@@ -1,0 +1,18 @@
+# yo-rc.json - Yeoman configuration for SPFx
+{
+    "@microsoft/generator-sharepoint": {
+        "plusBeta": false,
+        "isCreatingSolution": true,
+        "version": "1.18.2",
+        "libraryName": "spx-iae-custom-css",
+        "libraryId": "a4c5e2f8-9b7d-4e3a-8f6c-1d2e3f4a5b6c",
+        "environment": "spo",
+        "packageManager": "npm",
+        "solutionName": "spx-iae-custom-css",
+        "solutionShortDescription": "Custom CSS injector for SharePoint pages",
+        "skipFeatureDeployment": true,
+        "isDomainIsolated": false,
+        "componentType": "extension",
+        "extensionType": "ApplicationCustomizer"
+    }
+}

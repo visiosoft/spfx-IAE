@@ -1,0 +1,19 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+    "port": 4321,
+    "https": true,
+    "serveConfigurations": {
+        "default": {
+            "pageUrl": "https://innovationae.sharepoint.com/sites/InnovationArtsEntertainment",
+            "customActions": {
+                "a7e9f8d6-c5b4-4a3d-9e2f-1b0c8d7e6f5a": {
+                    "location": "ClientSideExtension.ApplicationCustomizer",
+                    "properties": {
+                        "cssClass": "w_k_FZA_-aI_E",
+                        "marginTop": "-50px"
+                    }
+                }
+            }
+        }
+    }
+}

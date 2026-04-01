@@ -1,0 +1,40 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+    "solution": {
+        "name": "spx-iae-custom-css-client-side-solution",
+        "id": "a4c5e2f8-9b7d-4e3a-8f6c-1d2e3f4a5b6c",
+        "version": "1.0.0.0",
+        "includeClientSideAssets": true,
+        "skipFeatureDeployment": true,
+        "isDomainIsolated": false,
+        "developer": {
+            "name": "Your Organization",
+            "websiteUrl": "https://www.example.com",
+            "privacyUrl": "https://www.example.com/privacy",
+            "termsOfUseUrl": "https://www.example.com/terms",
+            "mpnId": "Undefined-1.18.2"
+        },
+        "metadata": {
+            "shortDescription": {
+                "default": "Custom CSS injector for SharePoint pages"
+            },
+            "longDescription": {
+                "default": "Injects custom CSS to modify SharePoint page layout styling"
+            },
+            "screenshotPaths": [],
+            "videoUrl": "",
+            "categories": []
+        },
+        "features": [
+            {
+                "title": "Custom CSS Application Customizer",
+                "description": "Adds custom CSS styling to SharePoint pages",
+                "id": "b5d6e7f8-a9b0-4c1d-8e2f-3a4b5c6d7e8f",
+                "version": "1.0.0.0"
+            }
+        ]
+    },
+    "paths": {
+        "zippedPackage": "solution/spx-iae-custom-css.sppkg"
+    }
+}
