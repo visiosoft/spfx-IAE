@@ -1,7 +1,7 @@
 import { override } from '@microsoft/decorators';
 import { Log } from '@microsoft/sp-core-library';
 import {
-    BaseApplicationCustomizer
+  BaseApplicationCustomizer
 } from '@microsoft/sp-application-base';
 
 import * as strings from 'CustomCssApplicationCustomizerStrings';
@@ -9,84 +9,96 @@ import * as strings from 'CustomCssApplicationCustomizerStrings';
 const LOG_SOURCE = 'CustomCssApplicationCustomizer';
 
 export interface ICustomCssApplicationCustomizerProperties {
-    cssClass: string;
-    marginTop: string;
+  cssClass: string;
+  marginTop: string;
+  siteUrl: string;
 }
 
 export default class CustomCssApplicationCustomizer
-    extends BaseApplicationCustomizer<ICustomCssApplicationCustomizerProperties> {
+  extends BaseApplicationCustomizer<ICustomCssApplicationCustomizerProperties> {
 
-    @override
-    public onInit(): Promise<void> {
-        Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
+  @override
+  public onInit(): Promise<void> {
+    Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
 
-        // Get properties from configuration
-        const cssClass = this.properties.cssClass || 'w_k_FZA_-aI_E';
-        const marginTop = this.properties.marginTop || '0px';
-
-        // Inject custom CSS
-        this.injectCustomCSS(cssClass, marginTop);
-
-        // Get username from SPFx context
-        const username: string = this.context.pageContext.user.displayName;
-
-        // Update topic header with username
-        const updateHeader = (): void => {
-            const headerSpan: HTMLSpanElement | null = document.querySelector('span[data-automation-id="topicHeaderText"]');
-            if (headerSpan) {
-                headerSpan.textContent = `Welcome ${username} to the Spotlight`;
-                headerSpan.setAttribute('title', `Welcome ${username} to the Spotlight`);
-            } else {
-                setTimeout(updateHeader, 1000);
-            }
-        };
-        updateHeader();
-
-        // Allow topicHeaderText to wrap to two lines on mobile via JS
-        const handleMobileResize = (): void => {
-            const el: HTMLElement | null = document.querySelector('.t_HFlKV_Wr9CO.f_WIRdV_Wr9CO');
-            if (el) {
-                if (window.innerWidth <= 640) {
-                    el.style.setProperty('white-space', 'normal', 'important');
-                    el.style.setProperty('overflow-wrap', 'break-word', 'important');
-                    el.style.removeProperty('max-width');
-                } else {
-                    el.style.setProperty('min-width', '431px', 'important');
-                    el.style.setProperty('white-space', 'nowrap', 'important');
-                    el.style.removeProperty('overflow-wrap');
-                    el.style.removeProperty('max-width');
-                }
-            } else {
-                setTimeout(handleMobileResize, 1000);
-            }
-        };
-        handleMobileResize();
-        window.addEventListener('resize', handleMobileResize);
-
-        // Force hide all webPartHeader divs via JS
-        const hideWebPartHeaders = (): void => {
-            const headers: NodeListOf<HTMLElement> = document.querySelectorAll('div.w_ciTNc_-aI_E[data-automation-id="webPartHeader"]');
-            headers.forEach((header: HTMLElement) => {
-                header.style.setProperty('display', 'none', 'important');
-                header.style.setProperty('min-height', '0px', 'important');
-                header.style.setProperty('max-height', '0px', 'important');
-            });
-            if (headers.length === 0) {
-                setTimeout(hideWebPartHeaders, 1000);
-            }
-        };
-        hideWebPartHeaders();
-
+    // Scope guard — only run on the configured site
+    const allowedSiteUrl = this.properties.siteUrl;
+    if (allowedSiteUrl) {
+      const currentSiteUrl = this.context.pageContext.site.absoluteUrl.toLowerCase().replace(/\/$/, '');
+      const normalizedAllowed = allowedSiteUrl.toLowerCase().replace(/\/$/, '');
+      if (currentSiteUrl !== normalizedAllowed) {
+        Log.info(LOG_SOURCE, `Skipping — current site does not match configured siteUrl.`);
         return Promise.resolve();
+      }
     }
 
-    private injectCustomCSS(cssClass: string, marginTop: string): void {
-        // Create a style element
-        const style = document.createElement('style');
-        style.type = 'text/css';
+    // Get properties from configuration
+    const cssClass = this.properties.cssClass || 'w_k_FZA_-aI_E';
+    const marginTop = this.properties.marginTop || '0px';
 
-        // Define the CSS rule
-        const css = `
+    // Inject custom CSS
+    this.injectCustomCSS(cssClass, marginTop);
+
+    // Get username from SPFx context
+    const username: string = this.context.pageContext.user.displayName;
+
+    // Update topic header with username
+    const updateHeader = (): void => {
+      const headerSpan: HTMLSpanElement | null = document.querySelector('span[data-automation-id="topicHeaderText"]');
+      if (headerSpan) {
+        headerSpan.textContent = `Welcome ${username} to the Spotlight`;
+        headerSpan.setAttribute('title', `Welcome ${username} to the Spotlight`);
+      } else {
+        setTimeout(updateHeader, 1000);
+      }
+    };
+    updateHeader();
+
+    // Allow topicHeaderText to wrap to two lines on mobile via JS
+    const handleMobileResize = (): void => {
+      const el: HTMLElement | null = document.querySelector('.t_HFlKV_Wr9CO.f_WIRdV_Wr9CO');
+      if (el) {
+        if (window.innerWidth <= 640) {
+          el.style.setProperty('white-space', 'normal', 'important');
+          el.style.setProperty('overflow-wrap', 'break-word', 'important');
+          el.style.removeProperty('max-width');
+        } else {
+          el.style.setProperty('min-width', '431px', 'important');
+          el.style.setProperty('white-space', 'nowrap', 'important');
+          el.style.removeProperty('overflow-wrap');
+          el.style.removeProperty('max-width');
+        }
+      } else {
+        setTimeout(handleMobileResize, 1000);
+      }
+    };
+    handleMobileResize();
+    window.addEventListener('resize', handleMobileResize);
+
+    // Force hide all webPartHeader divs via JS
+    const hideWebPartHeaders = (): void => {
+      const headers: NodeListOf<HTMLElement> = document.querySelectorAll('div.w_ciTNc_-aI_E[data-automation-id="webPartHeader"]');
+      headers.forEach((header: HTMLElement) => {
+        header.style.setProperty('display', 'none', 'important');
+        header.style.setProperty('min-height', '0px', 'important');
+        header.style.setProperty('max-height', '0px', 'important');
+      });
+      if (headers.length === 0) {
+        setTimeout(hideWebPartHeaders, 1000);
+      }
+    };
+    hideWebPartHeaders();
+
+    return Promise.resolve();
+  }
+
+  private injectCustomCSS(cssClass: string, marginTop: string): void {
+    // Create a style element
+    const style = document.createElement('style');
+    style.type = 'text/css';
+
+    // Define the CSS rule
+    const css = `
       .${cssClass} {
       }
       
@@ -147,12 +159,12 @@ export default class CustomCssApplicationCustomizer
       }
     `;
 
-        // Add the CSS to the style element
-        style.appendChild(document.createTextNode(css));
+    // Add the CSS to the style element
+    style.appendChild(document.createTextNode(css));
 
-        // Append the style element to the document head
-        document.head.appendChild(style);
+    // Append the style element to the document head
+    document.head.appendChild(style);
 
-        Log.info(LOG_SOURCE, `Custom CSS injected for class: ${cssClass} with margin-top: ${marginTop}`);
-    }
+    Log.info(LOG_SOURCE, `Custom CSS injected for class: ${cssClass} with margin-top: ${marginTop}`);
+  }
 }

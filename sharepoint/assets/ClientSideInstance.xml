@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <ClientSideComponentInstance
+        Title="Custom CSS Application Customizer"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ComponentId="a7e9f8d6-c5b4-4a3d-9e2f-1b0c8d7e6f5a"
+        Properties="{&quot;cssClass&quot;:&quot;w_k_FZA_-aI_E&quot;,&quot;marginTop&quot;:&quot;0px&quot;,&quot;siteUrl&quot;:&quot;https://innovationae.sharepoint.com/sites/InnovationArtsEntertainment&quot;}">  
+    </ClientSideComponentInstance>
+</Elements>

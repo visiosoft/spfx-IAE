@@ -15,11 +15,11 @@
     "scriptResources": {
       "custom-css-application-customizer": {
         "type": "path",
-        "path": "custom-css-application-customizer.js"
+        "path": "custom-css-application-customizer_6dec88a8fc48f1adeb50.js"
       },
       "CustomCssApplicationCustomizerStrings": {
         "type": "path",
-        "path": "CustomCssApplicationCustomizerStrings_en-us.js"
+        "path": "CustomCssApplicationCustomizerStrings_en-us_c38082f15124f85e499c6e736a074ff5.js"
       },
       "@microsoft/sp-application-base": {
         "type": "component",

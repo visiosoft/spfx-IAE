@@ -30,7 +30,15 @@
                 "title": "Custom CSS Application Customizer",
                 "description": "Adds custom CSS styling to SharePoint pages",
                 "id": "b5d6e7f8-a9b0-4c1d-8e2f-3a4b5c6d7e8f",
-                "version": "1.0.0.0"
+                "version": "1.0.0.0",
+                "assets": {
+                    "elementManifests": [
+                        "elements.xml"
+                    ],
+                    "elementFiles": [
+                        "ClientSideInstance.xml"
+                    ]
+                }
             }
         ]
     },
