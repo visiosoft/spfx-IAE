@@ -130,15 +130,35 @@ export default class CustomCssApplicationCustomizer
         max-height: 0px !important;
       }
 
-      @media screen and (min-width: 640px) {
+      @media screen and (max-width: 639px) {
         .fng48xv {
           height: 400px !important;
         }
+
+        div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+        }
+
+        .nav-button-container {
+            margin-top: -30px !important;
+        }
       }
+
+      @media (min-width: 360px) {
+          div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+          }
+        }
           
       #ca89cf71-9ce3-4c01-8f23-ccb08babf9fb.r_DTWsp_y298L:not(.f_Ho0u7_y298L):not(.f_TW2uh_y298L) {
         margin: 1px !important;
-        padding: 8px !important;
+        padding: 30px !important;
       }
       
       .w_Vszg2_Wr9CO .p_x3vTs_Wr9CO,
