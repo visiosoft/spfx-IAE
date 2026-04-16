@@ -34,8 +34,8 @@ export default class CustomCssApplicationCustomizer
         const updateHeader = (): void => {
             const headerSpan: HTMLSpanElement | null = document.querySelector('span[data-automation-id="topicHeaderText"]');
             if (headerSpan) {
-                headerSpan.textContent = `Welcome ${username} to the Spotlight`;
-                headerSpan.setAttribute('title', `Welcome ${username} to the Spotlight`);
+                headerSpan.textContent = `Welcome ${username}`;
+                headerSpan.setAttribute('title', `Welcome ${username}`);
             } else {
                 setTimeout(updateHeader, 1000);
             }
@@ -51,7 +51,6 @@ export default class CustomCssApplicationCustomizer
                     el.style.setProperty('overflow-wrap', 'break-word', 'important');
                     el.style.removeProperty('max-width');
                 } else {
-                    el.style.setProperty('min-width', '431px', 'important');
                     el.style.setProperty('white-space', 'nowrap', 'important');
                     el.style.removeProperty('overflow-wrap');
                     el.style.removeProperty('max-width');
