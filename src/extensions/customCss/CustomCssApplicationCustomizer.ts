@@ -7,6 +7,7 @@ import {
 import * as strings from 'CustomCssApplicationCustomizerStrings';
 
 const LOG_SOURCE = 'CustomCssApplicationCustomizer';
+declare const PACKAGE_VERSION: string;
 
 export interface ICustomCssApplicationCustomizerProperties {
     cssClass: string;
@@ -19,6 +20,8 @@ export default class CustomCssApplicationCustomizer
     @override
     public onInit(): Promise<void> {
         Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
+        console.log(LOG_SOURCE, '', `Initialized ${strings.Title}`);
+        console.log(LOG_SOURCE, `CustomCss Customizer v${PACKAGE_VERSION} loaded`);
 
         // Get properties from configuration
         const cssClass = this.properties.cssClass || 'w_k_FZA_-aI_E';
