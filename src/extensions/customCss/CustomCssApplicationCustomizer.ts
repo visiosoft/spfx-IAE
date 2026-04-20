@@ -79,6 +79,28 @@ export default class CustomCssApplicationCustomizer
         };
         hideWebPartHeaders();
 
+        // Add version to footer on the left side
+        const addVersionToFooter = (): void => {
+            const footerContainer: HTMLElement | null = document.querySelector('[data-automationid="SimpleFooter"]');
+            if (footerContainer) {
+                // Check if version element already exists
+                if (!footerContainer.querySelector('.footer-version-display')) {
+                    // Create version element
+                    const versionDiv = document.createElement('div');
+                    versionDiv.className = 'footer-version-display';
+                    versionDiv.textContent = `v${PACKAGE_VERSION}`;
+                    versionDiv.setAttribute('title', `Version ${PACKAGE_VERSION}`);
+                    versionDiv.style.cssText = 'display: flex; align-items: center; font-size: 12px; color: #666; margin-right: auto;';
+                    
+                    // Insert at the beginning of the footer container
+                    footerContainer.insertBefore(versionDiv, footerContainer.firstChild);
+                }
+            } else {
+                setTimeout(addVersionToFooter, 1000);
+            }
+        };
+        addVersionToFooter();
+
         return Promise.resolve();
     }
 
