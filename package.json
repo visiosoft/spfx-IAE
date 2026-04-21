@@ -1,6 +1,6 @@
 {
     "name": "spx-iae-custom-css",
-    "version": "0.0.1",
+    "version": "0.0.6",
     "private": true,
     "main": "lib/index.js",
     "engines": {
@@ -11,7 +11,7 @@
         "clean": "gulp clean",
         "test": "gulp test",
         "serve": "gulp serve --max_old_space_size=4096",
-        "package": "gulp bundle --ship && gulp package-solution --ship"
+        "package": "gulp increment-version && gulp bundle --ship && gulp package-solution --ship"
     },
     "dependencies": {
         "@microsoft/decorators": "^1.18.2",

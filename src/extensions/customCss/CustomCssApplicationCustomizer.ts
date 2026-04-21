@@ -7,6 +7,7 @@ import {
 import * as strings from 'CustomCssApplicationCustomizerStrings';
 
 const LOG_SOURCE = 'CustomCssApplicationCustomizer';
+declare const PACKAGE_VERSION: string;
 
 export interface ICustomCssApplicationCustomizerProperties {
   cssClass: string;
@@ -17,17 +18,90 @@ export interface ICustomCssApplicationCustomizerProperties {
 export default class CustomCssApplicationCustomizer
   extends BaseApplicationCustomizer<ICustomCssApplicationCustomizerProperties> {
 
-  @override
-  public onInit(): Promise<void> {
-    Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
+    @override
+    public onInit(): Promise<void> {
+        Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
+        console.log(LOG_SOURCE, '', `Initialized ${strings.Title}`);
+        console.log(LOG_SOURCE, `CustomCss Customizer v${PACKAGE_VERSION} loaded`);
 
-    // Scope guard — only run on the configured site
-    const allowedSiteUrl = this.properties.siteUrl;
-    if (allowedSiteUrl) {
-      const currentSiteUrl = this.context.pageContext.site.absoluteUrl.toLowerCase().replace(/\/$/, '');
-      const normalizedAllowed = allowedSiteUrl.toLowerCase().replace(/\/$/, '');
-      if (currentSiteUrl !== normalizedAllowed) {
-        Log.info(LOG_SOURCE, `Skipping — current site does not match configured siteUrl.`);
+        // Get properties from configuration
+        const cssClass = this.properties.cssClass || 'w_k_FZA_-aI_E';
+        const marginTop = this.properties.marginTop || '0px';
+
+        // Inject custom CSS
+        this.injectCustomCSS(cssClass, marginTop);
+
+        // Get username from SPFx context
+        const username: string = this.context.pageContext.user.displayName;
+
+        // Update topic header with username
+        const updateHeader = (): void => {
+            const headerSpan: HTMLSpanElement | null = document.querySelector('span[data-automation-id="topicHeaderText"]');
+            if (headerSpan) {
+                headerSpan.textContent = `Welcome ${username}`;
+                headerSpan.setAttribute('title', `Welcome ${username}`);
+            } else {
+                setTimeout(updateHeader, 1000);
+            }
+        };
+        updateHeader();
+
+        // Allow topicHeaderText to wrap to two lines on mobile via JS
+        const handleMobileResize = (): void => {
+            const el: HTMLElement | null = document.querySelector('.t_HFlKV_Wr9CO.f_WIRdV_Wr9CO');
+            if (el) {
+                if (window.innerWidth <= 640) {
+                    el.style.setProperty('white-space', 'normal', 'important');
+                    el.style.setProperty('overflow-wrap', 'break-word', 'important');
+                    el.style.removeProperty('max-width');
+                } else {
+                    el.style.setProperty('white-space', 'nowrap', 'important');
+                    el.style.removeProperty('overflow-wrap');
+                    el.style.removeProperty('max-width');
+                }
+            } else {
+                setTimeout(handleMobileResize, 1000);
+            }
+        };
+        handleMobileResize();
+        window.addEventListener('resize', handleMobileResize);
+
+        // Force hide all webPartHeader divs via JS
+        const hideWebPartHeaders = (): void => {
+            const headers: NodeListOf<HTMLElement> = document.querySelectorAll('div.w_ciTNc_-aI_E[data-automation-id="webPartHeader"]');
+            headers.forEach((header: HTMLElement) => {
+                header.style.setProperty('display', 'none', 'important');
+                header.style.setProperty('min-height', '0px', 'important');
+                header.style.setProperty('max-height', '0px', 'important');
+            });
+            if (headers.length === 0) {
+                setTimeout(hideWebPartHeaders, 1000);
+            }
+        };
+        hideWebPartHeaders();
+
+        // Add version to footer on the left side
+        const addVersionToFooter = (): void => {
+            const footerContainer: HTMLElement | null = document.querySelector('[data-automationid="SimpleFooter"]');
+            if (footerContainer) {
+                // Check if version element already exists
+                if (!footerContainer.querySelector('.footer-version-display')) {
+                    // Create version element
+                    const versionDiv = document.createElement('div');
+                    versionDiv.className = 'footer-version-display';
+                    versionDiv.textContent = `v${PACKAGE_VERSION}`;
+                    versionDiv.setAttribute('title', `Version ${PACKAGE_VERSION}`);
+                    versionDiv.style.cssText = 'display: flex; align-items: center; font-size: 12px; color: #666; margin-right: auto;';
+                    
+                    // Insert at the beginning of the footer container
+                    footerContainer.insertBefore(versionDiv, footerContainer.firstChild);
+                }
+            } else {
+                setTimeout(addVersionToFooter, 1000);
+            }
+        };
+        addVersionToFooter();
+
         return Promise.resolve();
       }
     }
@@ -142,15 +216,35 @@ export default class CustomCssApplicationCustomizer
         max-height: 0px !important;
       }
 
-      @media screen and (min-width: 640px) {
+      @media screen and (max-width: 639px) {
         .fng48xv {
           height: 400px !important;
         }
+
+        div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+        }
+
+        .nav-button-container {
+            margin-top: -30px !important;
+        }
       }
+
+      @media (min-width: 360px) {
+          div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          div#wpartwrapper-nav-buttons-top {
+              margin-top: -65px !important;
+          }
+        }
           
       #ca89cf71-9ce3-4c01-8f23-ccb08babf9fb.r_DTWsp_y298L:not(.f_Ho0u7_y298L):not(.f_TW2uh_y298L) {
         margin: 1px !important;
-        padding: 8px !important;
+        padding: 30px !important;
       }
       
       .w_Vszg2_Wr9CO .p_x3vTs_Wr9CO,
